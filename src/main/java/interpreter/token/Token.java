@@ -1,7 +1,9 @@
 package interpreter.token;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Token {
-    // TokenType Enum 정의
     public enum TokenType {
         ILLEGAL("ILLEGAL"),
         EOF("EOF"),
@@ -25,12 +27,10 @@ public class Token {
 
         private final String literal;
 
-        // 생성자
         TokenType(String literal) {
             this.literal = literal;
         }
 
-        // 리터럴 반환 메서드
         public String getLiteral() {
             return literal;
         }
@@ -62,5 +62,16 @@ public class Token {
                 "type=" + type +
                 ", literal='" + literal + '\'' +
                 '}';
+    }
+
+    private static final Map<String, TokenType> keywords = new HashMap<>();
+
+    static {
+        keywords.put("fn", TokenType.FUNCTION);
+        keywords.put("let", TokenType.LET);
+    }
+    public static TokenType lookupIdent(String ident) {
+        return keywords.getOrDefault(ident, TokenType.IDENT);
+
     }
 }
